@@ -1,0 +1,53 @@
+
+
+3. Create ECR repository to save/store the docker images.
+    -Save the URI: 953331331323.dkr.ecr.ap-south-1.amazonaws.com/learningcicd
+
+4. Create EC2 machine (Ubuntu)
+
+5. Open EC2 and install docker in EC2 machine:
+#Optional
+5.1. Update packages:
+sudo apt-get update -y
+sudo apt-get upgrade
+
+5.2. Install required dependencies
+sudo apt install -y ca-certificates curl gnupg lsb-release
+
+5.3. Add Docker’s official GPG key
+sudo mkdir -p /etc/apt/keyrings
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+
+5.4. Add Docker repository
+echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] \
+  https://download.docker.com/linux/ubuntu \
+  $(lsb_release -cs) stable" | \
+  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+5.5. Install Docker Engine
+sudo apt update
+sudo apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+
+5.6. Start & enable Docker
+sudo systemctl start docker
+sudo systemctl enable docker
+
+5.7. (Optional) Run Docker without sudo
+sudo usermod -aG docker $USER
+newgrp docker
+
+5.8. Verify installation
+docker --version
+docker run hello-world
+
+6. Configure EC2 as self hosted runner:
+settings>actions>runner>new self hosted runner>choose OS> then run command one by one
+
+7. Setup github secrets:
+AWS_ACCESS_KEY_ID=
+AWS_SECRET_ACCESS_KEY=
+AWS_REGION = us-east-1
+AWS_ECR_LOGIN_URI = 953331331323.dkr.ecr.ap-south-1.amazonaws.com/learningcicd
+ECR_REPOSITORY_NAME = learningcicd
+
